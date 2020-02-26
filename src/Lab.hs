@@ -19,14 +19,14 @@ import Prelude hiding ( Semigroup(..), Monoid(..) )
 --
 -- (Associativity)      x <> (y <> z) = (x <> y) <> z
 
-class Semigroup a where 
-    (<>) :: a -> a -> a 
+class Semigroup a where
+    (<>) :: a -> a -> a
 
-instance Semigroup Int where 
-    (<>) = undefined 
+instance Semigroup Int where
+    (<>) = (+)
 
-instance Semigroup [a] where 
-    (<>) = undefined 
+instance Semigroup [a] where
+    (<>) = (++)
 
 --------------------------------------------------------------------------------
 -- Monoids
@@ -40,20 +40,21 @@ instance Semigroup [a] where
 class Semigroup a => Monoid a where
     mempty  :: a
     mconcat :: [a] -> a
-    mconcat = undefined
+    mconcat = foldr (<>) mempty
 
 instance Monoid Int where
-    mempty  = undefined
+  --if Semigroup Int <> = (*); mempty = 1
+    mempty = 0
 
 instance Monoid [a] where
-    mempty  = undefined
+    mempty  = []
 
 --------------------------------------------------------------------------------
 
-instance Semigroup b => Semigroup (a -> b) where 
-    (<>) = undefined 
+instance Semigroup b => Semigroup (a -> b) where
+    (<>) = undefined
 
 instance Monoid b => Monoid (a -> b) where
-    mempty  = undefined
+    mempty = undefined
 
 --------------------------------------------------------------------------------
